@@ -61,3 +61,94 @@ function calculateTotalPreice () {
         })
         document.getElementById("total-price-for-all-product").innerHTML = totalPriceForAllProduct + "$"
 }
+/*
+const cityByCountry = { 
+    sa: ["جدة" , "الرياض"], 
+    om: ["صلالة" , "مسقط"], 
+    pal: ["معسكر الشاطئ" , "غزة"], 
+    leb: ["صور" , "بيروت"]
+}
+document.querySelectorAll("select[name='country']").forEach(item => {
+    item.addEventListener("change" , () => {
+        const country = item.value
+
+        const city = cityByCountry[country]
+
+        document.querySelectorAll("payment-city option").forEach(option => option.remove())
+
+        const firstOption = document.createElement("option")
+        const optionText = document.createTextNode("اختر المدينة")
+        firstOption.appendChild(optionText)
+        firstOption.setAttribute("value","")
+        firstOption.setAttribute("disabled","true")
+        firstOption.setAttribute("selected","true")
+
+        const cityOptions = document.getElementById("#payment-city")
+        cityOptions.appendChild(firstOption)
+
+        city.forEach(city => {
+            const newOption = document.createElement("option")
+            const optionText = document.createTextNode(city)
+            newOption.appendChild(optionText)
+            newOption.setAttribute("value",city)
+            cityOptions.appendChild(newOption)
+        })
+    })
+})
+    
+*/
+const cityByCountry = { 
+    sa: ["جدة", "الرياض"], 
+    om: ["صلالة", "مسقط"], 
+    pal: ["معسكر الشاطئ", "غزة"], 
+    leb: ["صور", "بيروت"]
+};
+
+document.querySelectorAll("select[name='country']").forEach(item => {
+    item.addEventListener("change", () => {
+        const country = item.value;
+        const cities = cityByCountry[country] || []; // تأكد من وجود المدن
+
+        // إزالة جميع الخيارات الموجودة
+        const citySelect = document.getElementById("payment-city");
+        citySelect.innerHTML = ""; // استخدم innerHTML لمسح الخيارات
+
+        // إضافة الخيار الافتراضي
+        const firstOption = document.createElement("option");
+        const optionText = document.createTextNode("اختر المدينة");
+        firstOption.appendChild(optionText);
+        firstOption.setAttribute("value", "");
+        firstOption.setAttribute("disabled", "true"); // تصحيح كلمة "disabed" إلى "disabled"
+        firstOption.setAttribute("selected", "true");
+        citySelect.appendChild(firstOption);
+
+        // إضافة خيارات المدن
+        cities.forEach(city => {
+            const newOption = document.createElement("option"); // استخدم createElement بدلاً من createComment
+            const optionText = document.createTextNode(city);
+            newOption.appendChild(optionText);
+            newOption.setAttribute("value", city);
+            citySelect.appendChild(newOption);
+        });
+    });
+});
+
+// اخفاء و اظهار عناصر الدفع 
+
+document.querySelectorAll("#form-checkout input[name='payment-method']").forEach(item => {
+    item.addEventListener("change", () => {
+        const paymentMethod = item.value
+
+        const creditCardInput = document.querySelectorAll("#credit-card-info input")
+
+        if(paymentMethod === "COD") {
+            creditCardInput.forEach(input => {
+                input.style.display="none"
+            })
+        } else {
+            creditCardInput.forEach(input => {
+                input.style.display="block"
+            })
+        }
+    })
+})
